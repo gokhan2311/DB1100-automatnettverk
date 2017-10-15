@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>colorIndex</key>
+			<integer>5</integer>
+			<key>database</key>
+			<string>automatnettverk</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>name</key>
+			<string>local_root</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoK4HCBUWFxgZHSQpLTE0OFUkbnVsbNMJ
+			CgsMEBRXTlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6MNDg+AAoAD
+			gASjERITgAWABoAIgA1UdHlwZVRyb3dzVGtleXNfECZTZWxlY3Rp
+			b25EZXRhaWxUeXBlUHJpbWFyeUtleWVkRGV0YWlsc9MJCgsaGxyg
+			oIAH0h4fICFaJGNsYXNzbmFtZVgkY2xhc3Nlc18QE05TTXV0YWJs
+			ZURpY3Rpb25hcnmjICIjXE5TRGljdGlvbmFyeVhOU09iamVjdNIK
+			CyUooiYngAmAC4AM0gsqKyxZTlMuc3RyaW5ngApZYXV0b21hdElE
+			0h4fLi9fEA9OU011dGFibGVTdHJpbmejLjAjWE5TU3RyaW5n0gsq
+			KzOAClZ2YWt0SUTSHh81Nl5OU011dGFibGVBcnJheaM1NyNXTlNB
+			cnJhedIeHyI5oiIjXxAPTlNLZXllZEFyY2hpdmVy0Tw9VGRhdGGA
+			AQAIABEAGgAjAC0AMgA3AEYATABTAFsAZgBtAHEAcwB1AHcAewB9
+			AH8AgQCDAIgAjQCSALsAwgDDAMQAxgDLANYA3wD1APkBBgEPARQB
+			FwEZARsBHQEiASwBLgE4AT0BTwFTAVwBYQFjAWoBbwF+AYIBigGP
+			AZIBpAGnAawAAAAAAAACAQAAAAAAAAA+AAAAAAAAAAAAAAAAAAAB
+			rg==
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {694, 450}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>-- lage og bruke database 
+create schema if not exists automatNettverk; 
+use automatNettverk; 
+
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge
+drop table if exists vareInkludering; 
+drop table if exists sjekking;  
+drop table if exists Vakt; 
+drop table if exists Automat; 
+drop table if exists Lokasjon; 
+drop table if exists Vare; 
+drop table if exists Kategori; 
+-- legge inn tabeller
+drop table if exists Lokasjon; 
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+); 
+
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+); 
+
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+); 
+
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+); 
+
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+); 
+
+-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+); 
+create table sjekking(
+	automatID int, 
+	vaktID int,
+	primary key (automatID, vaktID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+); 
+</string>
+			<key>table</key>
+			<string>sjekking</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>200</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge
+drop table if exists vareInkludering;
+drop table if exists sjekking;
+drop table if exists Vakt;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vare;
+drop table if exists Kategori;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table sjekking(
+	automatID int, 
+	vaktID int,
+	primary key (automatID, vaktID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge
+drop table if exists vareInkludering;
+drop table if exists sjekking;
+drop table if exists Vakt;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vare;
+drop table if exists Kategori;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Vakt;
+drop table if exists vareInkludering;
+drop table if exists sjekking;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vare;
+drop table if exists Kategori;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Vakt;
+drop table if exists vareInkludering;
+drop table if exists sjekking;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Kategori</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Vakt;
+drop table if exists Vare</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Vakt;
+drop table if exists Kategori</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Lokasjon</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat</string>
+		<string>-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+)</string>
+		<string>-- koblingsentiteter 
+
+create table vareInkludering( -- kobling -&gt; lower case
+	automatID int, 
+	vareID int, 
+	primary key (automatID),
+	primary key (vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+drop table if exists Vare;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter</string>
+		<string>-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategorID) references Kategori(kategoriID)
+)</string>
+		<string>create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+)</string>
+		<string>drop table if exists Kategori</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+drop table if exists Vare;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategorID) references Kategori(kategoriID)
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+drop table if exists Vare;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140)
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+drop table if exists Vare;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2) -- maks pris 9999.99
+	navn varchar(40),
+	beksrivelse varchar(140)
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+dro table if exists Vare</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+drop table if exists Kategori;
+-- legge inn tabeller
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45), 
+	x decimal(9,7), -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7),
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40),
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int, 
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+-- NB: rekkefølge 
+drop table if exists Automat;
+drop table if eixists Lokasjon</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.19</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
