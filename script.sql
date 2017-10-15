@@ -87,6 +87,8 @@ alter table Automat add check(
 	) <= kapasitet
 );
 
+
+
 -- legge inn data:
 
 insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
@@ -125,8 +127,8 @@ insert into Lokasjon(navn, x, y) values
 	("Bogstadveien", 28.3345342, 1.8341232),
 	("Forskningsparken", 29.4857384, 1.8341992);
 -- etter lokasjon -> nøkler
-insert into Automat(kapasitet) values
-	(500),(500),(250),(750),(900),(500),(250),(250); -- 8 automater
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250); -- 8 automater
 insert into Vakt(navn, lonnPerSjekk) values
 	("Per Petersen", 110),
 	("Ola Bokleser", 90),
