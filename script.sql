@@ -78,7 +78,7 @@ create table Sjekk(
 	foreign key (vaktID) references Vakt(vaktID)
 );
 
-/*
+
 
 -- legge til sjekk for varer kontra kapasitet
 alter table Automat add check(
@@ -103,7 +103,6 @@ for each row begin
 			end;
 			$$
 
- */
 ; -- where automatID = 1;
 
 select 	sum(antall), automatID
