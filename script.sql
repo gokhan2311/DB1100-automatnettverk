@@ -78,6 +78,8 @@ create table Sjekk(
 	foreign key (vaktID) references Vakt(vaktID)
 );
 
+/*
+
 -- legge til sjekk for varer kontra kapasitet
 alter table Automat add check(
 	(
@@ -87,7 +89,27 @@ alter table Automat add check(
 	) <= kapasitet
 );
 
+delimeter $$
+create trigger varer_kontra_kapasitet
+before update on VareInkludering
+for each row begin
+	if(NEW.VareInkludering >
+		(select avg(kapasitet) from Automat natural join VareInkludering
+		group by automatID
+		on automatID) < VareInkludering.antall) then
+			signal sqlstate "45000"
+			set message_text = "for mange varer";
+			end if;
+			end;
+			$$
 
+ */
+; -- where automatID = 1;
+
+select 	sum(antall), automatID
+		from Automat natural join VareInkludering
+		group by automatID
+		having automatID = 1;
 
 -- legge inn data:
 
