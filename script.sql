@@ -78,7 +78,7 @@ create table Sjekk(
 	foreign key (vaktID) references Vakt(vaktID)
 );
 
-/*
+
 
 -- legge til sjekk for varer kontra kapasitet
 alter table Automat add check(
@@ -92,7 +92,7 @@ alter table Automat add check(
 delimeter $$
 create trigger varer_kontra_kapasitet
 before update on VareInkludering
-for each row begin
+for each row begin 
 	if(NEW.VareInkludering >
 		(select avg(kapasitet) from Automat natural join VareInkludering
 		group by automatID
@@ -103,7 +103,7 @@ for each row begin
 			end;
 			$$
 
- */
+
 ; -- where automatID = 1;
 
 select 	sum(antall), automatID
