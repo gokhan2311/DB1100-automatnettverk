@@ -43,6 +43,23 @@
 		<dict>
 			<key>connectionEncoding</key>
 			<string>latin1</string>
+			<key>contentFilter</key>
+			<dict>
+				<key>filterComparison</key>
+				<string>=</string>
+				<key>filterComparisonTag</key>
+				<integer>0</integer>
+				<key>filterField</key>
+				<string>kategoriID</string>
+				<key>filterValue</key>
+				<string>1</string>
+				<key>firstBetweenField</key>
+				<string></string>
+				<key>menuLabel</key>
+				<string>`kategoriID` = '1'</string>
+				<key>secondBetweenField</key>
+				<string></string>
+			</dict>
 			<key>contentPageNumber</key>
 			<integer>1</integer>
 			<key>contentSelection</key>
@@ -54,19 +71,19 @@
 			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
 			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
 			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
-			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeACllhdXRvbWF0SUTSHh8t
-			Ll8QD05TTXV0YWJsZVN0cmluZ6MtLyNYTlNTdHJpbmfSHh8xMl5O
-			U011dGFibGVBcnJheaMxMyNXTlNBcnJhedIeHyI1oiIjXxAPTlNL
-			ZXllZEFyY2hpdmVy0Tg5VGRhdGGAAQAIABEAGgAjAC0AMgA3AEUA
-			SwBSAFoAZQBsAHAAcgB0AHYAegB8AH4AgACCAIcAjACRALoAwQDC
-			AMMAxQDKANUA3gD0APgBBQEOARMBFQEXARkBHgEoASoBNAE5AUsB
-			TwFYAV0BbAFwAXgBfQGAAZIBlQGaAAAAAAAAAgEAAAAAAAAAOgAA
-			AAAAAAAAAAAAAAAAAZw=
+			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeAClprYXRlZ29yaUlE0h4f
+			LS5fEA9OU011dGFibGVTdHJpbmejLS8jWE5TU3RyaW5n0h4fMTJe
+			TlNNdXRhYmxlQXJyYXmjMTMjV05TQXJyYXnSHh8iNaIiI18QD05T
+			S2V5ZWRBcmNoaXZlctE4OVRkYXRhgAEACAARABoAIwAtADIANwBF
+			AEsAUgBaAGUAbABwAHIAdAB2AHoAfAB+AIAAggCHAIwAkQC6AMEA
+			wgDDAMUAygDVAN4A9AD4AQUBDgETARUBFwEZAR4BKAEqATUBOgFM
+			AVABWQFeAW0BcQF5AX4BgQGTAZYBmwAAAAAAAAIBAAAAAAAAADoA
+			AAAAAAAAAAAAAAAAAAGd
 			</data>
 			<key>contentSortColIsAsc</key>
 			<true/>
 			<key>contentViewport</key>
-			<string>{{0, 0}, {694, 450}}</string>
+			<string>{{0, 0}, {1240, 738}}</string>
 			<key>isToolbarVisible</key>
 			<true/>
 			<key>queries</key>
@@ -84,10 +101,9 @@ drop table if exists Kategori;
 drop table if exists Automat;
 drop table if exists Lokasjon;
 drop table if exists Vakt; 
-
 -- legge inn tabeller
 
-drop table if exists Lokasjon; 
+
 create table Lokasjon(
 	lokasjonID int auto_increment, 
 	navn varchar(45) unique, 
@@ -110,8 +126,6 @@ create table Kategori(
 	primary key (kategoriID)
 ); 
 
--- Vare og Automat -&gt; fremmednøkler er etablert 
-
 create table Vare(
 	vareID int auto_increment,
 	kategoriID int,
@@ -130,6 +144,7 @@ create table Automat(
 	foreign key (lokasjonID) references Lokasjon(lokasjonID)
 ); 
 
+
 -- koblingsentiteter 
 
 create table VareInkludering( 
@@ -140,6 +155,7 @@ create table VareInkludering(
 	foreign key (automatID) references Automat(automatID),
 	foreign key (vareID) references Vare(vareID) 
 ); 
+
 
 create table Sjekk(
 	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
@@ -184,7 +200,7 @@ insert into Lokasjon(navn, x, y) values
 	("Westerdals", 30.4231231, 1.5341232),
 	("Oslo S", 30.4231311, 0.9941232),
 	("UiO", 29.4995384, 1.2341232),
-	("Stortinget", 30.9394857, 0.8399932),
+	("Stortinget", 30.9394854, 0.8399932),
 	("Bogstadveien", 28.3345342, 1.8341232),
 	("Forskningsparken", 29.4857384, 1.8341992); 
 -- etter lokasjon -&gt; nøkler
@@ -197,11 +213,10 @@ insert into Vakt(navn, lonnPerSjekk) values
 	("Linus Gran", 90),
 	("Hans Olsen", 100),
 	("Hans Olsen", 110); -- like!?
--- legge inn i koblingsentitetene 
 insert into Sjekk(automatID, vaktID) values
 	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
 	(1,2),(2,2),(6,6),(6,5),
-	(5,3),(3,2),(1,4); 
+	(5,3),(3,2),(1,4),(1,4); 
 insert into VareInkludering(automatID, vareID, antall) values 
 	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
 	
@@ -210,10 +225,14 @@ insert into VareInkludering(automatID, vareID, antall) values
 	
 	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33); -- automat 3 fokuserer på lunsj og middag 
 
-
+	select sum(antall) 
+	from VareInkludering
+	group by kategoriID; 
+	
+	select * from VareInkludering;
 </string>
 			<key>table</key>
-			<string>Automat</string>
+			<string>Kategori</string>
 			<key>view</key>
 			<string>SP_VIEW_CUSTOMQUERY</string>
 			<key>windowVerticalDividerPosition</key>
@@ -243,6 +262,546 @@ drop table if exists Lokasjon;
 drop table if exists Vakt;
 -- legge inn tabeller
 
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.9394854, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke -- 10 + 44 +23 +10 = 87
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- automat 3 fokuserer på lunsj og middag 
+
+	select sum(antall) , automatID
+	from VareInkludering
+	group by automatID</string>
+		<string>-- automat 3 fokuserer på lunsj og middag 
+
+	select sum(antall) 
+	from VareInkludering
+	group by automatID</string>
+		<string>-- automat 3 fokuserer på lunsj og middag 
+
+	select sum(antall) 
+	from VareInkludering
+	group by kategoriID</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.9394854, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- like!?
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4),(1,4)</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.93948544, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.939485, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
 drop table if exists Lokasjon;
 create table Lokasjon(
 	lokasjonID int auto_increment, 
@@ -277,6 +836,362 @@ create table Vare(
 create table Automat(
 	automatID int auto_increment, 
 	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.9394857, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+-- legge inn i koblingsentitetene 
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- legge inn tabeller
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique,
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+)</string>
+		<string>-- lage og bruke database 
+
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique,
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int,
+	kapasitet int,
+	primary key (automatID), 
+	foreign key (lokasjonID) references Lokasjon(lokasjonID)
+);
+-- koblingsentiteter 
+
+create table VareInkludering( 
+	automatID int, 
+	vareID int, 
+	antall int,
+	primary key (automatID, vareID),
+	foreign key (automatID) references Automat(automatID),
+	foreign key (vareID) references Vare(vareID) 
+);
+create table Sjekk(
+	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
+	automatID int, 
+	vaktID int,
+	primary key (sjekkID), 
+	foreign key (automatID) references Automat(automatID), 
+	foreign key (vaktID) references Vakt(vaktID)
+);
+-- legge inn data: 
+
+insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
+	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
+	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
+	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
+	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+insert into Vare (pris, navn, beskrivelse, kategoriID) values 
+	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
+	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
+	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
+	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
+	
+	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
+	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
+	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
+	
+	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
+	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
+	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
+	
+	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
+	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
+	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
+	
+	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
+	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
+	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
+	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
+insert into Lokasjon(navn, x, y) values 
+	("Westerdals", 30.4231231, 1.5341232),
+	("Oslo S", 30.4231311, 0.9941232),
+	("UiO", 29.4995384, 1.2341232),
+	("Stortinget", 30.9394857, 0.8399932),
+	("Bogstadveien", 28.3345342, 1.8341232),
+	("Forskningsparken", 29.4857384, 1.8341992);
+-- etter lokasjon -&gt; nøkler
+insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
+	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
+-- 8 automater
+insert into Vakt(navn, lonnPerSjekk) values 
+	("Per Petersen", 110),
+	("Ola Bokleser", 90), 
+	("Live Simensen", 110), 
+	("Linus Gran", 90),
+	("Hans Olsen", 100),
+	("Hans Olsen", 110);
+-- like!?
+-- legge inn i koblingsentitetene 
+insert into Sjekk(automatID, vaktID) values
+	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
+	(1,2),(2,2),(6,6),(6,5),
+	(5,3),(3,2),(1,4);
+insert into VareInkludering(automatID, vareID, antall) values 
+	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
+	
+	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
+	(2,11,3),(2,12,20),(2,13,11), 
+	
+	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
+-- automat 3 fokuserer på lunsj og middag</string>
+		<string>-- lage og bruke database 
+
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique,
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+)</string>
+		<string>create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+)</string>
+		<string>-- lage og bruke database 
+
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique,
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+)</string>
+		<string>-- lage og bruke database 
+drop database automatNettverk;
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique,
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+)</string>
+		<string>-- lage og bruke database 
+drop database automatNettverk</string>
+		<string>-- lage og bruke database 
+drop schema automatNettverk</string>
+		<string>-- lage og bruke database 
+create schema if not exists automatNettverk;
+use automatNettverk;
+-- dropping av tabeller dersom de allered eksisterer 
+
+-- NB: rekkefølge
+drop table if exists VareInkludering;
+drop table if exists Sjekk;
+drop table if exists Vare;
+drop table if exists Kategori;
+drop table if exists Automat;
+drop table if exists Lokasjon;
+drop table if exists Vakt;
+-- legge inn tabeller
+
+drop table if exists Lokasjon;
+create table Lokasjon(
+	lokasjonID int auto_increment, 
+	navn varchar(45) unique, 
+	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
+	y decimal(9,7) unique,
+	primary key (lokasjonID)
+);
+create table Vakt(
+	vaktID int auto_increment, 
+	navn varchar(40), 
+	lonnPerSjekk int, -- lønn i hele kroner 
+	primary key (vaktID)
+);
+create table Kategori(
+	kategoriID int auto_increment, 
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (kategoriID)
+);
+-- Vare og Automat -&gt; fremmednøkler er etablert 
+
+create table Vare(
+	vareID int auto_increment,
+	kategoriID int,
+	pris decimal(6,2), -- maks pris 9999.99
+	navn varchar(40) unique,
+	beskrivelse varchar(140),
+	primary key (vareID),
+	foreign key (kategoriID) references Kategori(kategoriID)
+);
+create table Automat(
+	automatID int auto_increment, 
+	lokasjonID int not null,
 	kapasitet int,
 	primary key (automatID), 
 	foreign key (lokasjonID) references Lokasjon(lokasjonID)
@@ -412,257 +1327,8 @@ create table Automat(
 	lokasjonID int,
 	kapasitet int,
 	primary key (automatID), 
-	foreign key (lokasjonID) references Lokasjon(lokasjonID)
-);
--- koblingsentiteter 
-
-create table VareInkludering( 
-	automatID int, 
-	vareID int, 
-	antall int,
-	primary key (automatID, vareID),
-	foreign key (automatID) references Automat(automatID),
-	foreign key (vareID) references Vare(vareID) 
-);
-create table Sjekk(
-	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
-	automatID int, 
-	vaktID int,
-	primary key (sjekkID), 
-	foreign key (automatID) references Automat(automatID), 
-	foreign key (vaktID) references Vakt(vaktID)
-);
-select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID
-		having automatID = 1;
--- legge inn data: 
-
-insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
-	("drikke", "drikkevarer som brus, kaffe, te, saft og vann"),
-	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
-	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"), 
-	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
-	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
-insert into Vare (pris, navn, beskrivelse, kategoriID) values 
-	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
-	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
-	(30.00, "sjokolade - stor", "en sjokolade for den som er veldig glad i sjokolade", 5),
-	(25.00, "seigmenn", "gode gelegodterier i fruktige smaker, formet som mennesker", 5),
-	
-	(34.50, "smørbrød, grønnsaker", "et forfriskende måltid for den som er glad i grønnsaker", 4), 
-	(26.5, "smørbrød, skinke og ost", "deilig smørbrød med skinke og ost", 4),
-	(22.00, "smørbrød, standard", "den gode gamle oppskriften på automatens eldste produkt", 4),
-	
-	(20.00, "tomatsuppe, pose", "en god tomatsuppe til en travel hverdag", 3),
-	(45.50, "lasagne, original", "automatens originale lasagne. Varmes i mikro i 2 minutter", 3),
-	(50.00, "lasagne, vegetar", "en lasagne stappet med grønnsaker. Varmes i mikro i 2.5 minutter", 3),
-	
-	(35.90, "potetgull, original", "det salte, originale potetgullet fra automaten", 2),
-	(35.90, "potetgull, paprika", "potetgull fra automaten, med paprikasmak. Bestselger!", 2),
-	(40.00, "potetgull, salt og pepper", "potetgull fra automaten, med smak av salt og pepper. Prisvinner!", 2),
-	
-	(17.50, "automatens kosedrikk", "den klassiske brusen. Til lange og korte dager så vel som hverdager og helg", 1),
-	(14.00, "kaffe, sort", "kaffe fra automaten gir deg akkurat det du trenger i løpet av arbeidsdagen", 1),
-	(10.00, "te, frukt", "gir deg en fin start på morgenen, med smak av tropiske frukter", 1),
-	(10.50, "te, sove", "gir den perfekte avslutning på en lang dag", 1);
-insert into Lokasjon(navn, x, y) values 
-	("Westerdals", 30.4231231, 1.5341232),
-	("Oslo S", 30.4231311, 0.9941232),
-	("UiO", 29.4995384, 1.2341232),
-	("Stortinget", 30.9394857, 0.8399932),
-	("Bogstadveien", 28.3345342, 1.8341232),
-	("Forskningsparken", 29.4857384, 1.8341992);
--- etter lokasjon -&gt; nøkler
-insert into Automat(lokasjonID, kapasitet) values -- LEGG TIL LOKASJON
-	(1,500),(2,500),(1,250),(3,750),(4,900),(4,500),(5,250),(6,250);
--- 8 automater
-insert into Vakt(navn, lonnPerSjekk) values 
-	("Per Petersen", 110),
-	("Ola Bokleser", 90), 
-	("Live Simensen", 110), 
-	("Linus Gran", 90),
-	("Hans Olsen", 100),
-	("Hans Olsen", 110);
--- like!?
--- legge inn i koblingsentitetene 
-insert into Sjekk(automatID, vaktID) values
-	(1,4),(1,2),(2,4),(2,4),(5,4),(2,1),
-	(1,2),(2,2),(6,6),(6,5),
-	(5,3),(3,2),(1,4);
-insert into VareInkludering(automatID, vareID, antall) values 
-	(1,14,10),(1,15,23),(1,16,44),(1,17,10), -- automat 1 har bare drikke 
-	
-	(2,14,10),(2,15,12),(2,16,42),(2,17,23), -- automat 2 har drikke og snacks
-	(2,11,3),(2,12,20),(2,13,11), 
-	
-	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33);
--- automat 3 fokuserer på lunsj og middag</string>
-		<string>-- lage og bruke database 
-create schema if not exists automatNettverk;
-use automatNettverk;
--- dropping av tabeller dersom de allered eksisterer 
-
--- NB: rekkefølge
-drop table if exists VareInkludering;
-drop table if exists Sjekk;
-drop table if exists Vare;
-drop table if exists Kategori;
-drop table if exists Automat;
-drop table if exists Lokasjon;
-drop table if exists Vakt;
--- legge inn tabeller
-
-drop table if exists Lokasjon;
-create table Lokasjon(
-	lokasjonID int auto_increment, 
-	navn varchar(45) unique, 
-	x decimal(9,7) unique, -- samme som Google Maps -&gt; også med negative verdier  
-	y decimal(9,7) unique,
-	primary key (lokasjonID)
-);
-create table Vakt(
-	vaktID int auto_increment, 
-	navn varchar(40), 
-	lonnPerSjekk int, -- lønn i hele kroner 
-	primary key (vaktID)
-);
-create table Kategori(
-	kategoriID int auto_increment, 
-	navn varchar(40) unique,
-	beskrivelse varchar(140),
-	primary key (kategoriID)
-);
--- Vare og Automat -&gt; fremmednøkler er etablert 
-
-create table Vare(
-	vareID int auto_increment,
-	kategoriID int,
-	pris decimal(6,2), -- maks pris 9999.99
-	navn varchar(40) unique,
-	beskrivelse varchar(140),
-	primary key (vareID),
-	foreign key (kategoriID) references Kategori(kategoriID)
-);
-create table Automat(
-	automatID int auto_increment, 
-	lokasjonID int,
-	kapasitet int,
-	primary key (automatID), 
-	foreign key (lokasjonID) references Lokasjon(lokasjonID)
-);
--- koblingsentiteter 
-
-create table VareInkludering( 
-	automatID int, 
-	vareID int, 
-	antall int,
-	primary key (automatID, vareID),
-	foreign key (automatID) references Automat(automatID),
-	foreign key (vareID) references Vare(vareID) 
-);
-create table Sjekk(
-	sjekkID int auto_increment, -- automatID/vaktID holder ikke fordi samme vakt kan sjekke en automat flere ganger
-	automatID int, 
-	vaktID int,
-	primary key (sjekkID), 
-	foreign key (automatID) references Automat(automatID), 
-	foreign key (vaktID) references Vakt(vaktID)
-);
--- legge til sjekk for varer kontra kapasitet 
-alter table Automat add check(
-	(
-		select sum(antall)
-		from Automat natural join VareInkludering
-		group by automatID
-	) &lt;= kapasitet
-);
-delimeter $$
-create trigger varer_kontra_kapasitet
-before update on VareInkludering 
-for each row begin 
-	if(NEW.VareInkludering &gt; 
-		(select avg(kapasitet) from Automat natural join VareInkludering 
-		group by automatID
-		on automatID) &lt; VareInkludering.antall) then 
-			signal sqlstate "45000"
-			set message_text = "for mange varer"</string>
-		<string>delimeter $$
-create trigger varer_kontra_kapasitet
-before update on VareInkludering 
-for each row begin 
-	if(NEW.VareInkludering &gt; 
-		(select avg(kapasitet) from Automat natural join VareInkludering 
-		group by automatID
-		on automatID) &lt; VareInkludering.antall) then 
-			signal sqlstate "45000"
-			set message_text = "for mange varer"</string>
-		<string>delimeter  $$
-create trigger varer_kontra_kapasitet
-before update on VareInkludering 
-for each row begin 
-	if(NEW.VareInkludering &gt; 
-		(select avg(kapasitet) from Automat natural join VareInkludering 
-		group by automatID
-		on automatID) &lt; VareInkludering.antall) then 
-			signal sqlstate "45000"
-			set message_text = "for mange varer"</string>
-		<string>delimeter$$
-create trigger varer_kontra_kapasitet
-before update on VareInkludering 
-for each row begin 
-	if(NEW.VareInkludering &gt; 
-		(select avg(kapasitet) from Automat natural join VareInkludering 
-		group by automatID
-		on automatID) &lt; VareInkludering.antall) then 
-			signal sqlstate "45000"
-			set message_text = "for mange varer"</string>
-		<string>select avg(kapasitet), automatID from Automat natural join VareInkludering 
-group by automatID</string>
-		<string>select kapasitet, automatID from Automat natural join VareInkludering</string>
-		<string>-- where automatID = 1; 
-
-select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID
-		having automatID = 1</string>
-		<string>select kapasitet, automatID from Automat natural join VareInkludering 
-where automatID = 1</string>
-		<string>select kapasitet from Automat natural join VareInkludering 
-where automatID = 1</string>
-		<string>then 
-
-select kapasitet from Automat natural join VareInkludering 
-where automatID = 1</string>
-		<string>then 
-
-select kapasitet from Automat natural join VareInkludering 
-where autoamtID = 1</string>
-		<string>select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID
-		having automatID = 1</string>
-		<string>select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID
-		where automatID = 1</string>
-		<string>select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID</string>
-		<string>select 	*
-		from Automat natural join VareInkludering
-		group by automatID</string>
-		<string>select sum(antall)
-		from Automat natural join VareInkludering
-		group by automatID</string>
-		<string>select sum(antall)
-		from Automat, VareInkludering
-		on automatID = 2
-		group by automatID</string>
-		<string>select sum(antall)
-		from Automat natural join VareInkludering
-		on automatID = 2
-		group by automatID</string>
+	foreign key (lokasjonID) references Lokasjon(lokasjonID) on delete cascade</string>
+		<string>delete from Lokasjon where navn = "Westerdals"</string>
 	</array>
 	<key>rdbms_type</key>
 	<string>mysql</string>
