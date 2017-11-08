@@ -89,6 +89,18 @@ select * from Vakt; -- ikke lov </string>
 	<array/>
 	<key>queryHistory</key>
 	<array>
+		<string>-- ikke lov 
+
+
+SELECT sql_grants FROM common_schema.sql_show_grants</string>
+		<string>-- ikke lov 
+
+
+select * from information_schema.user_privileges</string>
+		<string>-- ikke lov 
+
+
+show grants</string>
 		<string>select * from Vakt</string>
 		<string>call hent_vare_fra_lokasjon("lakrisbåter")</string>
 		<string>select * from automat_lokasjon_etter_vare</string>
@@ -115,12 +127,6 @@ set pris = 10
 where vareID = 1</string>
 		<string>select * from Kategori</string>
 		<string>use automatnettverk</string>
-		<string>show users</string>
-		<string>-- inner, right, left, 
-select * from Lokasjon natural join Automat</string>
-		<string>-- inner, right, left, 
-
-select * from Kategori natural join Vare</string>
 	</array>
 	<key>rdbms_type</key>
 	<string>mysql</string>

@@ -11,7 +11,7 @@
 		<key>connection</key>
 		<dict>
 			<key>database</key>
-			<string>automatNettverk</string>
+			<string>automatnettverk</string>
 			<key>host</key>
 			<string>127.0.0.1</string>
 			<key>kcid</key>
@@ -47,30 +47,26 @@
 			<integer>1</integer>
 			<key>contentSelection</key>
 			<data>
-			YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFy
-			Y2hpdmVyVCR0b3ASAAGGoK0HCBUWFxgZHSQoLDA0VSRudWxs0wkK
-			CwwQFFdOUy5rZXlzWk5TLm9iamVjdHNWJGNsYXNzow0OD4ACgAOA
-			BKMREhOABYAGgAiADFR0eXBlVHJvd3NUa2V5c18QJlNlbGVjdGlv
-			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
-			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
-			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
-			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeACldzamVra0lE0h4fLS5f
-			EA9OU011dGFibGVTdHJpbmejLS8jWE5TU3RyaW5n0h4fMTJeTlNN
-			dXRhYmxlQXJyYXmjMTMjV05TQXJyYXnSHh8iNaIiI18QD05TS2V5
-			ZWRBcmNoaXZlctE4OVRkYXRhgAEACAARABoAIwAtADIANwBFAEsA
-			UgBaAGUAbABwAHIAdAB2AHoAfAB+AIAAggCHAIwAkQC6AMEAwgDD
-			AMUAygDVAN4A9AD4AQUBDgETARUBFwEZAR4BKAEqATIBNwFJAU0B
-			VgFbAWoBbgF2AXsBfgGQAZMBmAAAAAAAAAIBAAAAAAAAADoAAAAA
-			AAAAAAAAAAAAAAGa
+			YnBsaXN0MDDUAQIDBAUGJCVYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoKgHCBMUFRYaIVUkbnVsbNMJCgsMDxJX
+			TlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6INDoACgAOiEBGABIAF
+			gAdUdHlwZVRyb3dzXxAdU2VsZWN0aW9uRGV0YWlsVHlwZU5TSW5k
+			ZXhTZXTSFwsYGVxOU1JhbmdlQ291bnQQAIAG0hscHR5aJGNsYXNz
+			bmFtZVgkY2xhc3Nlc1pOU0luZGV4U2V0oh8gWk5TSW5kZXhTZXRY
+			TlNPYmplY3TSGxwiI1xOU0RpY3Rpb25hcnmiIiBfEA9OU0tleWVk
+			QXJjaGl2ZXLRJidUZGF0YYABAAgAEQAaACMALQAyADcAQABGAE0A
+			VQBgAGcAagBsAG4AcQBzAHUAdwB8AIEAoQCmALMAtQC3ALwAxwDQ
+			ANsA3gDpAPIA9wEEAQcBGQEcASEAAAAAAAACAQAAAAAAAAAoAAAA
+			AAAAAAAAAAAAAAABIw==
 			</data>
 			<key>contentSortColIsAsc</key>
 			<true/>
 			<key>contentViewport</key>
-			<string>{{0, 0}, {1240, 738}}</string>
+			<string>{{0, 0}, {694, 450}}</string>
 			<key>isToolbarVisible</key>
 			<true/>
 			<key>table</key>
-			<string>Sjekk</string>
+			<string>automatlokasjoner</string>
 			<key>view</key>
 			<string>SP_VIEW_CUSTOMQUERY</string>
 			<key>windowVerticalDividerPosition</key>
@@ -85,6 +81,83 @@
 	<array/>
 	<key>queryHistory</key>
 	<array>
+		<string>select * from automatLokasjoner</string>
+		<string>-- --------------------------------------
+
+create or replace view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>-- --------------------------------------
+
+
+create or replace view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon left join Automat
+	on Lokasjon.lokasjonID = Automat.lokasjonID
+	order by Lokasjon.navn</string>
+		<string>-- --------------------------------------
+
+
+create or replace view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon right join Automat
+	on Lokasjon.lokasjonID = Automat.lokasjonID
+	order by Lokasjon.navn</string>
+		<string>-- --------------------------------------
+
+
+create view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon right join Automat
+	on Lokasjon.lokasjonID = Automat.lokasjonID
+	order by Lokasjon.navn</string>
+		<string>-- --------------------------------------
+
+
+create view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>-- --------------------------------------
+
+
+drop view automatLokasjoner</string>
+		<string>-- --------------------------------------
+
+
+
+create view automatLokasjoner as
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>select Lokasjon.navn, automat.automatID -- hver gang!?
+from Lokasjon natural join Automat
+order by Lokasjon.navn</string>
+		<string>use automatNettverk</string>
+		<string>-- view -&gt; hvordan bygget opp? 
+
+create view automatLokasjoner as 
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>create or replace view automatLokasjoner as 
+	select Lokasjon.navn, automat.automatID
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>-- view -&gt; hvordan bygget opp? 
+
+create view automatLokasjoner as 
+	select Lokasjon.navn, automat.automatID -- hver gang!? 
+	from Lokasjon natural join Automat
+	order by Lokasjon.navn</string>
+		<string>select Lokasjon.navn, automat.automatID
+from Lokasjon natural join Automat
+order by Lokasjon.navn</string>
+		<string>select Lokasjon.navn, automat.automatID
+from Lokasjon natural join Automat</string>
+		<string>select Lokasjon.navn, automat.navn
+from Lokasjon natural join Automat</string>
 		<string>select * from steder</string>
 		<string>-- ---------------------------
 
@@ -104,43 +177,6 @@ create or replace view steder as
 create view steder as 
 	select navn 
 	from lokasjon</string>
-		<string>create view steder as 
-	select navn 
-	from lokasjon</string>
-		<string>create view vakt_sjekk as 
-	select Vakt.navn, count(Sjekk.automatID) 
-	from Sjekk natural join Vakt
-	group by Vakt.navn</string>
-		<string>select * from vakt_sjekk</string>
-		<string>create view NAVN as 
-	SPØRRING</string>
-		<string>select Vakt.navn, count(Sjekk.automatID)
-	from Vakt natural join Automat
-	group by Vakt.navn</string>
-		<string>select Vakt.navn, count(Sjekk.automatID) 
-from Sjekk natural join Vakt
-group by Vakt.navn</string>
-		<string>select Vakt.navn 
-from Sjekk natural join Vakt
-group by Vakt.navn</string>
-		<string>select * from Sjekk natural join Vakt</string>
-		<string>select * from Sjekk join Vakt</string>
-		<string>select * from Sjekk right join Vakt</string>
-		<string>select * from Sjekk inner join Vakt</string>
-		<string>select * from Sjekk</string>
-		<string>select Vakt.navn, Sjekk.automatID
-from Vakt natural join Automat
-group by Vakt.navn</string>
-		<string>select Vakt.navn, count(Sjekk.automatID)
-from Vakt natural join Automat
-group by Vakt.navn</string>
-		<string>create view vakt_sjekk as 
-	select Vakt.navn, count(Sjekk.automatID)
-	from Vakt natural join Automat
-	group by Vakt.navn</string>
-		<string>create view vakt_sjekk as 
-	select Vakt.navn, count(Sjekk.automatID)
-	from Vakt natural join Automat</string>
 	</array>
 	<key>rdbms_type</key>
 	<string>mysql</string>
