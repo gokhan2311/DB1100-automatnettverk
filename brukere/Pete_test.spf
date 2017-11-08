@@ -10,6 +10,8 @@
 	<dict>
 		<key>connection</key>
 		<dict>
+			<key>database</key>
+			<string>automatnettverk</string>
 			<key>host</key>
 			<string>127.0.0.1</string>
 			<key>kcid</key>
@@ -35,7 +37,7 @@
 			<key>useSSL</key>
 			<integer>0</integer>
 			<key>user</key>
-			<string>root</string>
+			<string>Pete</string>
 		</dict>
 		<key>session</key>
 		<dict>
@@ -64,53 +66,19 @@
 			<key>isToolbarVisible</key>
 			<true/>
 			<key>queries</key>
-			<string>-- users 
+			<string>use automatNettverk; 
+
+select * from vare; 
 
 
--- oppdateringsanscarlig  
+update vare 
+set pris = 10 
+where vareID = 1; 
 
-drop user if exists Pete; 
+select * from Vare; 
 
-create user Pete identified by "hemmeligPete"; 
-grant update on automatNettverk.* to Pete;
-
-
-
-
-
--- ansatte 
-
-drop user if exists Steve; 
-
-create user Steve identified by "hemmeligSteve"; 
-grant select on automat_lokajson_etter_vare to Steve; 
-
-
-drop user if exists Steven; 
-
-create user Steven identified by "hemmeligSteven"; 
-grant select on automat_lokajson_etter_vare to Steven; 
-
-
-show grants for Steve;
-show grants for Steven; 
-
-
--- ------------------------------------
-
-
--- støttes ikke i mysql.. 
---	create role ansatt; 
-
--- 	grant ansatt to Steve; 
--- 	grant ansatt to Steven;
-
--- 	create role sjef; 
-
-
-
-
-</string>
+insert into vare(kategoriID, pris, navn, beskrivelse) values 
+	(1, 45, "cola - stor", "perfekt for filmkvelden"); </string>
 			<key>view</key>
 			<string>SP_VIEW_CUSTOMQUERY</string>
 			<key>windowVerticalDividerPosition</key>
@@ -125,62 +93,56 @@ show grants for Steven;
 	<array/>
 	<key>queryHistory</key>
 	<array>
-		<string>grant select on automatNettverk.* to Pete</string>
-		<string>grant update on automatNettverk.* to Pete</string>
-		<string>create user Pete identified by "hemmeligPete"</string>
-		<string>-- users 
+		<string>insert into vare(kategoriID, pris, navn, beskrivelse) values 
+	(1, 45, "cola - stor", "perfekt for filmkvelden")</string>
+		<string>select * from Vare</string>
+		<string>update vare 
+set pris = 10 
+where vareID = 1</string>
+		<string>update vare 
+set prs = 10 
+where vareID = 1</string>
+		<string>select * from vare</string>
+		<string>use automatNettverk</string>
+		<string>update Vare
+set pris = 10 
+where vareID = 1</string>
+		<string>select * from Kategori</string>
+		<string>show grants</string>
+		<string>use automatnettverk</string>
+		<string>show users</string>
+		<string>-- inner, right, left, 
+select * from Lokasjon natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from Kategori natural join Vare</string>
+		<string>-- inner, right, left, 
+
+select * from Vare natural join VareInkludering</string>
+		<string>-- inner, right, left, 
+
+select * from Vare natural join Kategori</string>
+		<string>-- inner, right, left, 
+
+select * from Sjekk natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from Lokasjon natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from vare natural join kategori</string>
+		<string>-- for langt?!
 
 
--- oppdateringsanscarlig  
+select * 
+from vare inner join kategori
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, 
 
-drop user if exists Pete</string>
-		<string>show grants for Steve</string>
-		<string>grant select on automat_lokasjon_etter_vare to Steve</string>
-		<string>create user Steve identified by "hemmeligSteve"</string>
-		<string>show grants for Steven</string>
-		<string>-- ansatte
-create user Steven identified by "hemmeligSteven"</string>
-		<string>grant select on automat_lokasjon_etter_vare to Steven</string>
-		<string>create user Steven identified by "hemmeligSteven"</string>
-		<string>drop user if exists Steven</string>
-		<string>-- ansatte 
-
-drop user if exists Steve</string>
-		<string>-- users 
-
-
--- oppdateringsanscarlig  
-
-drop user if exists</string>
-		<string>drop user Pete</string>
-		<string>-- users 
-
-
--- oppdateringsanscarlig  
-
-create user Pete identified by "hemmeligPete"</string>
-		<string>-- users 
-
-
--- oppdateringsanscarlig  
-create user Pete identified by "hemmeligPete"</string>
-		<string>-- users 
-
-
--- oppdateringsanscarlig  
-create user Pete identified by "hemmeligPete"
-grant update on automatNettverk.* to Pete
-
-
-
--- ansatte 
-
-create user Steve identified by "hemmeligSteve"</string>
-		<string>create user Pete identified by "hemmeligPete"
-grant update on automatNettverk.* to Pete</string>
-		<string>-- oppdateringsanscarlig  
-create user Pete identified by "hemmeligPete";
-grant update on automatNettverk.* to Pete</string>
+select * 
+from kategori natural join vare
+-- on vare.kategoriID = kategori.kategoriID</string>
 	</array>
 	<key>rdbms_type</key>
 	<string>mysql</string>

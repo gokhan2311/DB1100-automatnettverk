@@ -231,29 +231,6 @@ call hent_vare_fra_lokasjon("sjokolade - medium");
 	<array/>
 	<key>queryHistory</key>
 	<array>
-		<string>call parameter_test(100)</string>
-		<string>call parameter_test(20)</string>
-		<string>call parameter_test()</string>
-		<string>create procedure parameter_test(parameter int)
-	begin
-		select * 
-		from Vakt 
-		where lonnPerSjekk &gt;= parameter;
-	end</string>
-		<string>-- ------------------------------------------------------------------
-
-drop procedure parameter_test</string>
-		<string>call procedure_test()</string>
-		<string>create procedure procedure_test()
-	begin
-		select * 
-		from Vakt; 
-	end</string>
-		<string>-- ------------------------------------------------------------------
-
-drop procedure procedure_test</string>
-		<string>call hent_vare_fra_lokasjon("kaffe, sort")</string>
-		<string>call hent_vare_fra_lokasjon("sjokolade - medium")</string>
 		<string>create procedure hent_vare_fra_lokasjon(in varenavn varchar(40))
    begin
    
@@ -280,6 +257,64 @@ drop procedure procedure_test</string>
    
    	select * from automat_lokasjon_etter_vare; 
    end</string>
+		<string>-- ------------------------------------------------------------------
+
+
+
+
+
+
+
+drop procedure if exists hent_vare_fra_lokasjon</string>
+		<string>create procedure hent_vare_fra_lokasjon(in varenavn varchar(40))
+   begin
+   
+   	create or replace view automat_lokasjon as 
+	select Automat.automatID, Lokasjon.navn
+		from Automat inner join Lokasjon -- natural? 
+		where Automat.lokasjonID = Lokasjon.lokasjonID
+		order by automatID
+	; 
+
+	create or replace view automat_vare as 		
+		select vareInkludering.automatID, Vare.navn, vareInkludering.antall
+		from Vare left join vareInkludering -- alle varer 
+		on Vare.vareID = vareInkludering.vareID
+	; 
+	
+
+	select automat_vare.navn as vare, coalesce(automat_lokasjon.navn, "UTSOLGT") as lokasjon
+	from automat_vare right join automat_lokasjon
+	on automat_vare.automatID = automat_lokasjon.automatID
+	where automat_vare.navn = varenavn -- finne spesifisert vare
+	order by automat_vare.navn
+	; 
+   
+   	select * from automat_lokasjon_etter_vare; 
+   end</string>
+		<string>call hent_vare_fra_lokasjon("kaffe, sort")</string>
+		<string>call hent_vare_fra_lokasjon("sjokolade - medium")</string>
+		<string>call parameter_test(100)</string>
+		<string>call parameter_test(20)</string>
+		<string>call parameter_test()</string>
+		<string>create procedure parameter_test(parameter int)
+	begin
+		select * 
+		from Vakt 
+		where lonnPerSjekk &gt;= parameter;
+	end</string>
+		<string>-- ------------------------------------------------------------------
+
+drop procedure parameter_test</string>
+		<string>call procedure_test()</string>
+		<string>create procedure procedure_test()
+	begin
+		select * 
+		from Vakt; 
+	end</string>
+		<string>-- ------------------------------------------------------------------
+
+drop procedure procedure_test</string>
 		<string>select * from automat_lokasjon_etter_vare</string>
 		<string>select automat_vare.navn as vare, coalesce(automat_lokasjon.navn, "UTSOLGT") as lokasjon
 from automat_vare left join automat_lokasjon
@@ -340,58 +375,6 @@ drop procedure if exists hent_vare_fra_lokasjon</string>
 		from automat_vare left join automat_lokasjon
 		on automat_vare.automatID = automat_lokasjon.automatID
 		where automat_vare.navn = vareParameter -- finne spesifisert vare
-		order by automat_vare.navn
-	; 
-   
-   	select * from automat_lokasjon_etter_vare; 
-   end</string>
-		<string>create procedure hent_vare_fra_lokasjon(in vareParameter varchar(40))
-   begin
-   
-   	create or replace view automat_lokasjon as 
-	select Automat.automatID, Lokasjon.navn
-		from Automat inner join Lokasjon -- natural? 
-		where Automat.lokasjonID = Lokasjon.lokasjonID
-		order by automatID
-	; 
-
-	create or replace view automat_vare as 		
-		select vareInkludering.automatID, Vare.navn, vareInkludering.antall
-		from Vare left join vareInkludering -- alle varer 
-		on Vare.vareID = vareInkludering.vareID
-	; 
-	
-	create or replace view automat_lokasjon_etter_vare as 
-		select automat_vare.navn as vare, coalesce(automat_lokasjon.navn, "UTSOLGT") as lokasjon
-		from automat_vare left join automat_lokasjon
-		on automat_vare.automatID = automat_lokasjon.automatID
-		where automat_vare.navn = @vareParameter -- finne spesifisert vare
-		order by automat_vare.navn
-	; 
-   
-   	select * from automat_lokasjon_etter_vare; 
-   end</string>
-		<string>create procedure hent_vare_fra_lokasjon(in vare varchar(40))
-   begin
-   
-   	create or replace view automat_lokasjon as 
-	select Automat.automatID, Lokasjon.navn
-		from Automat inner join Lokasjon -- natural? 
-		where Automat.lokasjonID = Lokasjon.lokasjonID
-		order by automatID
-	; 
-
-	create or replace view automat_vare as 		
-		select vareInkludering.automatID, Vare.navn, vareInkludering.antall
-		from Vare left join vareInkludering -- alle varer 
-		on Vare.vareID = vareInkludering.vareID
-	; 
-	
-	create or replace view automat_lokasjon_etter_vare as 
-		select automat_vare.navn as vare, coalesce(automat_lokasjon.navn, "UTSOLGT") as lokasjon
-		from automat_vare left join automat_lokasjon
-		on automat_vare.automatID = automat_lokasjon.automatID
-		where automat_vare.navn = vare -- finne spesifisert vare
 		order by automat_vare.navn
 	; 
    
