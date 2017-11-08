@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>automatNettverk</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-2414966021566744966</string>
+			<key>name</key>
+			<string>local_root</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentFilter</key>
+			<dict/>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoK0HCBUWFxgZHSQoLDA0VSRudWxs0wkK
+			CwwQFFdOUy5rZXlzWk5TLm9iamVjdHNWJGNsYXNzow0OD4ACgAOA
+			BKMREhOABYAGgAiADFR0eXBlVHJvd3NUa2V5c18QJlNlbGVjdGlv
+			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
+			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
+			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
+			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeAClZ2YXJlSUTSHh8tLl8Q
+			D05TTXV0YWJsZVN0cmluZ6MtLyNYTlNTdHJpbmfSHh8xMl5OU011
+			dGFibGVBcnJheaMxMyNXTlNBcnJhedIeHyI1oiIjXxAPTlNLZXll
+			ZEFyY2hpdmVy0Tg5VGRhdGGAAQAIABEAGgAjAC0AMgA3AEUASwBS
+			AFoAZQBsAHAAcgB0AHYAegB8AH4AgACCAIcAjACRALoAwQDCAMMA
+			xQDKANUA3gD0APgBBQEOARMBFQEXARkBHgEoASoBMQE2AUgBTAFV
+			AVoBaQFtAXUBegF9AY8BkgGXAAAAAAAAAgEAAAAAAAAAOgAAAAAA
+			AAAAAAAAAAAAAZk=
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1240, 738}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>table</key>
+			<string>Vare</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>200</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>update Vare 
+set pris = 15
+where vareID = 1</string>
+		<string>update Vare
+insert into Vare(pris) values (15)
+	where vareID = 1</string>
+		<string>insert into Vare(pris) values (15)
+	where vareID = 1</string>
+		<string>create trigger prisLoggTrigger 
+before update on Vare 
+for each row 
+	begin 
+		if(OLD.pris &lt;&gt; NEW.pris) then 
+			insert into prisLogg(vareID, gammelPris)
+			values (OLD.vareID, OLD.pris);
+		end if;
+	end</string>
+		<string>create trigger prisLoggTrigger 
+before update on Vare 
+for each row 
+	begin 
+		if(OLD.pris &lt;&gt; NEW.pris) then 
+			insert into prisLogg(vareID, gammelPris)
+			values (OLD.vareID, OLD.pris);
+		end if 
+	end</string>
+		<string>create trigger prisLoggTrigger 
+before update on Vare 
+for each row 
+	begin 
+		if(OLD.pris &lt;&gt; NEW.pris) then 
+			insert into prisLogg(vareID, gammelPris)
+			values (OLD.vareID, OLD.pris)
+		end if 
+	end</string>
+		<string>create table PrisLogg(
+	vareID int, 
+	gammelPris int
+)</string>
+		<string>-- trigger 
+
+drop table if exists PrisLogg</string>
+		<string>create trigger prisLoggTrigger 
+before update on Vare 
+for each row 
+	begin 
+		prisLogg.vareID = Vare.vareID; 
+		prisLogg.pris = OLD.Vare.pris;
+	end</string>
+		<string>end$$
+DELIMETER</string>
+		<string>end</string>
+		<string>shoe engines</string>
+		<string>create table PrisLogg(
+	vareID int, 
+	pris int
+)</string>
+		<string>-- trigger 
+
+create or replace table PrisLogg(
+	vareID int, 
+	pris int
+)</string>
+		<string>drop table PrisLogg</string>
+		<string>-- trigger 
+
+create table PrisLogg(
+	vareID int, 
+	pris int
+)</string>
+		<string>-- trigger 
+
+create table PrisLogg(
+	vareID int, 
+	pris int,
+)</string>
+		<string>-- trigger 
+
+create or replace table PrisLogg(
+	vareID int, 
+	pris int,
+)</string>
+		<string>-- trigger 
+
+create or replce table PrisLogg(
+	vareID int, 
+	pris int,
+)</string>
+		<string>-- trigger 
+
+use automatNettverk</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.19</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>automatNettverk</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-2414966021566744966</string>
+			<key>name</key>
+			<string>local_root</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentFilter</key>
+			<dict/>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoK0HCBUWFxgZHSQoLDA0VSRudWxs0wkK
+			CwwQFFdOUy5rZXlzWk5TLm9iamVjdHNWJGNsYXNzow0OD4ACgAOA
+			BKMREhOABYAGgAiADFR0eXBlVHJvd3NUa2V5c18QJlNlbGVjdGlv
+			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
+			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
+			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
+			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeAClprYXRlZ29yaUlE0h4f
+			LS5fEA9OU011dGFibGVTdHJpbmejLS8jWE5TU3RyaW5n0h4fMTJe
+			TlNNdXRhYmxlQXJyYXmjMTMjV05TQXJyYXnSHh8iNaIiI18QD05T
+			S2V5ZWRBcmNoaXZlctE4OVRkYXRhgAEACAARABoAIwAtADIANwBF
+			AEsAUgBaAGUAbABwAHIAdAB2AHoAfAB+AIAAggCHAIwAkQC6AMEA
+			wgDDAMUAygDVAN4A9AD4AQUBDgETARUBFwEZAR4BKAEqATUBOgFM
+			AVABWQFeAW0BcQF5AX4BgQGTAZYBmwAAAAAAAAIBAAAAAAAAADoA
+			AAAAAAAAAAAAAAAAAAGd
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1240, 738}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>-- join
+
+use Automatnettverk; 
+
+select * 
+from vare; 
+
+select * 
+from kategori; 
+
+
+select * 
+from vare inner join kategori; -- for langt?!
+
+
+select * 
+from vare inner join kategori
+on vare.kategoriID = kategori.kategoriID
+order by vareID; 
+
+
+-- inner, right, left, 
+select * from Lokasjon natural join Automat;
+-- select * from Kategori natural join Vare;
+
+-- natural 
+
+</string>
+			<key>table</key>
+			<string>Kategori</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>200</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>-- inner, right, left, 
+select * from Lokasjon natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from Kategori natural join Vare</string>
+		<string>-- inner, right, left, 
+
+select * from Vare natural join VareInkludering</string>
+		<string>-- inner, right, left, 
+
+select * from Vare natural join Kategori</string>
+		<string>-- inner, right, left, 
+
+select * from Sjekk natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from Lokasjon natural join Automat</string>
+		<string>-- inner, right, left, 
+
+select * from vare natural join kategori</string>
+		<string>-- for langt?!
+
+
+select * 
+from vare inner join kategori
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, 
+
+select * 
+from kategori natural join vare
+-- on vare.kategoriID = kategori.kategoriID</string>
+		<string>-- inner, right, left, 
+
+select * 
+from kategori natural join vare
+-- on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, 
+
+select * 
+from kategori natural join vare
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, 
+
+select * 
+from kategori inner join vare
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, natural  
+
+select * 
+from kategori natural join vare
+-- on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, natural  
+
+select * 
+from kategori natural join vare
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, natural  
+
+select * 
+from kategori left join vare
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, natural  
+
+select * 
+from vare right join kategori
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>-- inner, right, left, natural  
+
+select * 
+from vare left join kategori
+on vare.kategoriID = kategori.kategoriID
+order by vareID</string>
+		<string>insert into kategori (navn, beskrivelse) values ("frokost", "måltid som starter dagen på en god måte!")</string>
+		<string>insert into kategoriID (navn, beskrivelse) values ("frokost", "måltid som starter dagen på en god måte!")</string>
+		<string>-- for langt?!
+
+
+select * 
+from vare inner join kategori
+on vare.kategoriID = kategori.kategoriID</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.19</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>

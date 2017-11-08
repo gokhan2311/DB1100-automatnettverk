@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>automatNettverk</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-2414966021566744966</string>
+			<key>name</key>
+			<string>local_root</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoK0HCBUWFxgZHSQoLDA0VSRudWxs0wkK
+			CwwQFFdOUy5rZXlzWk5TLm9iamVjdHNWJGNsYXNzow0OD4ACgAOA
+			BKMREhOABYAGgAiADFR0eXBlVHJvd3NUa2V5c18QJlNlbGVjdGlv
+			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
+			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
+			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
+			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeACldzamVra0lE0h4fLS5f
+			EA9OU011dGFibGVTdHJpbmejLS8jWE5TU3RyaW5n0h4fMTJeTlNN
+			dXRhYmxlQXJyYXmjMTMjV05TQXJyYXnSHh8iNaIiI18QD05TS2V5
+			ZWRBcmNoaXZlctE4OVRkYXRhgAEACAARABoAIwAtADIANwBFAEsA
+			UgBaAGUAbABwAHIAdAB2AHoAfAB+AIAAggCHAIwAkQC6AMEAwgDD
+			AMUAygDVAN4A9AD4AQUBDgETARUBFwEZAR4BKAEqATIBNwFJAU0B
+			VgFbAWoBbgF2AXsBfgGQAZMBmAAAAAAAAAIBAAAAAAAAADoAAAAA
+			AAAAAAAAAAAAAAGa
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1240, 738}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>table</key>
+			<string>Sjekk</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>200</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>select * from steder</string>
+		<string>-- ---------------------------
+
+
+create or replace view steder as 
+	select navn, lokasjonID
+	from lokasjon</string>
+		<string>-- ---------------------------
+
+
+create or replace view steder as 
+	select navn
+	from lokasjon</string>
+		<string>-- ---------------------------
+
+
+create view steder as 
+	select navn 
+	from lokasjon</string>
+		<string>create view steder as 
+	select navn 
+	from lokasjon</string>
+		<string>create view vakt_sjekk as 
+	select Vakt.navn, count(Sjekk.automatID) 
+	from Sjekk natural join Vakt
+	group by Vakt.navn</string>
+		<string>select * from vakt_sjekk</string>
+		<string>create view NAVN as 
+	SPØRRING</string>
+		<string>select Vakt.navn, count(Sjekk.automatID)
+	from Vakt natural join Automat
+	group by Vakt.navn</string>
+		<string>select Vakt.navn, count(Sjekk.automatID) 
+from Sjekk natural join Vakt
+group by Vakt.navn</string>
+		<string>select Vakt.navn 
+from Sjekk natural join Vakt
+group by Vakt.navn</string>
+		<string>select * from Sjekk natural join Vakt</string>
+		<string>select * from Sjekk join Vakt</string>
+		<string>select * from Sjekk right join Vakt</string>
+		<string>select * from Sjekk inner join Vakt</string>
+		<string>select * from Sjekk</string>
+		<string>select Vakt.navn, Sjekk.automatID
+from Vakt natural join Automat
+group by Vakt.navn</string>
+		<string>select Vakt.navn, count(Sjekk.automatID)
+from Vakt natural join Automat
+group by Vakt.navn</string>
+		<string>create view vakt_sjekk as 
+	select Vakt.navn, count(Sjekk.automatID)
+	from Vakt natural join Automat
+	group by Vakt.navn</string>
+		<string>create view vakt_sjekk as 
+	select Vakt.navn, count(Sjekk.automatID)
+	from Vakt natural join Automat</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.19</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
