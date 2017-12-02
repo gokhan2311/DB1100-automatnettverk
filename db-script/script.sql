@@ -80,36 +80,6 @@ create table Sjekk(
 
 
 
--- legge til sjekk for varer kontra kapasitet
-alter table Automat add check(
-	(
-		select sum(antall)
-		from Automat natural join VareInkludering
-		group by automatID
-	) <= kapasitet
-);
-
-delimeter $$
-create trigger varer_kontra_kapasitet
-before update on VareInkludering
-for each row begin
-	if(NEW.VareInkludering >
-		(select avg(kapasitet) from Automat natural join VareInkludering
-		group by automatID
-		on automatID) < VareInkludering.antall) then
-			signal sqlstate "45000"
-			set message_text = "for mange varer";
-			end if;
-			end;
-			$$
-
-; -- where automatID = 1;
-
-select 	sum(antall), automatID
-		from Automat natural join VareInkludering
-		group by automatID
-		having automatID = 1;
-
 -- legge inn data:
 
 insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
@@ -117,7 +87,8 @@ insert into Kategori(navn, beskrivelse) values -- PK kunne vært "navn"
 	("snacks", "tørre produkter som popcorn, potetgull, nøtter og kjeks"),
 	("middag", "et fullverdig måltid. Krever som regel oppvarming og/eller utblanding i vann"),
 	("lunsj", "mindre måltidsprodukter. Sandwich, Yogurt o.l."),
-	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende");
+	("godteri", "søtsaker som sjokolade, gelegodteri, lakris og lignende"),
+    ("frokost", "noe godt som starter dagen");
 insert into Vare (pris, navn, beskrivelse, kategoriID) values
 	(10.00, "sjokolade - liten", "en sjokolade for den som er litt glad i sjokolade", 5),
 	(22.50, "sjokolade - medium", "en sjokolade for den som er noe glad i sjokolade", 5),
@@ -169,3 +140,4 @@ insert into VareInkludering(automatID, vareID, antall) values
 	(2,11,3),(2,12,20),(2,13,11),
 
 	(3,5,20),(3,6, 30),(3,7,34),(3,8,11),(3,9,23),(3,10,33); -- automat 3 fokuserer på lunsj og middag
+

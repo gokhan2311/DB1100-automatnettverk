@@ -1,0 +1,16 @@
+Min eksamensbesvarelse: 
+
+https://www.youtube.com/watch?v=rgXmGRps068&list=PLU-NIj88tNuJ7_Dmjp1T0kFGYaWz_M61t
+
+Dette er en lenke til en spilleliste med alle videoene. 
+
+Videoene svarer til følgende oppgave: 
+
+"ER modellering - SQL" -> punkt 1 
+"db-script - SQL -> punkt 2 
+"normalisering - SQL -> punkt 3 
+"join - SQL", "group by - SQL", "views - SQL", "trigger - SQL", views og procedures - SQL" -> punkt 4
+"brukere - SQL" -> punkt 5 
+
+
+Dokument 1 og 2 er henholdsvis beskrivelse.docx og script.sql

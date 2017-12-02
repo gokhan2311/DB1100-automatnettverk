@@ -125,59 +125,41 @@ show grants for Steven;
 	<array/>
 	<key>queryHistory</key>
 	<array>
-		<string>-- ------------------------------------
-
-
--- støttes ikke i mysql.. 
---	create role ansatt; 
-
--- 	grant ansatt to Steve; 
--- 	grant ansatt to Steven;
-
--- 	create role sjef; 
-
-
-
-select * from information_schema.user_privileges</string>
-		<string>-- ------------------------------------
-
-
--- støttes ikke i mysql.. 
---	create role ansatt; 
-
--- 	grant ansatt to Steve; 
--- 	grant ansatt to Steven;
-
--- 	create role sjef; 
-
-
-
-SELECT sql_grants FROM common_schema.sql_show_grants</string>
-		<string>grant select on automat_lokasjon_etter_vare to Steven</string>
-		<string>grant select on automat_lokasjon_etter_vare to Steve</string>
-		<string>grant select on automat_lokasjon_etter_vare</string>
-		<string>grant execute on procedure hent_vare_fra_lokasjon to Steve</string>
-		<string>grant execute on procedure automat_lokasjon_etter_vare to Steve</string>
+		<string>show grants for Steven</string>
+		<string>show grants for Steve</string>
 		<string>grant execute on procedure hent_vare_fra_lokasjon to Steven</string>
-		<string>grant execute on procedure automat_lokasjon_etter_vare to Steven</string>
-		<string>grant execute on automat_lokasjon_etter_vare to Steven</string>
+		<string>grant execute on procedure hent_vare_fra_lokasjon to Steve</string>
+		<string>grant select on procedure hent_vare_fra_lokasjon to Steven</string>
 		<string>create user Steven identified by "hemmeligSteven"</string>
-		<string>drop user if exists Steven</string>
-		<string>grant select on automat_lokajson_etter_vare to Steve</string>
-		<string>create user Steve identified by "hemmeligSteve"</string>
+		<string>-- ansatte  -&gt; vakter 
+
+
+ 
+
+create user Steve identified by "hemmeligSteve"</string>
+		<string>-- ansatte 
+drop user Steve</string>
+		<string>drop user Steven</string>
+		<string>grant execute on hent_vare_fra_lokasjon to Steve</string>
 		<string>-- ansatte 
 
-drop user if exists Steve</string>
+ 
+
+create user Steve identified by "hemmeligSteve"</string>
+		<string>-- ansatte 
+select * from automat_lokajson_etter_vare</string>
 		<string>grant select on automatNettverk.* to Pete</string>
+		<string>grant select on automatNettverk to Pete</string>
 		<string>grant update on automatNettverk.* to Pete</string>
-		<string>create user Pete identified by "hemmeligPete"</string>
-		<string>-- users 
+		<string>-- oppdateringsanscarlig  
 
 
--- oppdateringsanscarlig  
 
-drop user if exists Pete</string>
-		<string>show grants for Steve</string>
+create user Pete identified by "hemmeligPete"</string>
+		<string>grant select on automatNettverk.Lokasjon to Pete</string>
+		<string>show grants</string>
+		<string>grant update on automatNettverk.Lokasjon to Pete</string>
+		<string>drop user if exists Steven</string>
 	</array>
 	<key>rdbms_type</key>
 	<string>mysql</string>
